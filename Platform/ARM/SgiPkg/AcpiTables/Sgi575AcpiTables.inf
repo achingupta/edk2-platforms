@@ -16,6 +16,7 @@
 
 [Sources]
   Dbg2.aslc
+  Sgi575/Einj.aslc
   Fadt.aslc
   Gtdt.aslc
   Iort.aslc

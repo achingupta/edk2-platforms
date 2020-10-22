@@ -37,6 +37,8 @@
   gArmSgiTokenSpaceGuid.PcdVirtioNetSupported
 
 [FixedPcd]
+  gArmSgiTokenSpaceGuid.PcdMhuBaseAddress
+  gArmSgiTokenSpaceGuid.PcdMhuChannelSetOffset
   gArmSgiTokenSpaceGuid.PcdVirtioBlkBaseAddress
   gArmSgiTokenSpaceGuid.PcdVirtioBlkSize
   gArmSgiTokenSpaceGuid.PcdVirtioNetBaseAddress
