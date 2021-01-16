@@ -16,6 +16,7 @@
 
 [Sources]
   Dbg2.aslc
+  RdN1Edge/Einj.aslc
   SsdtRos.asl
   Fadt.aslc
   Gtdt.aslc
@@ -61,6 +62,10 @@
   gArmSgiTokenSpaceGuid.PcdSp804DualTimerBaseAddress
   gArmSgiTokenSpaceGuid.PcdSp804DualTimerSize
   gArmSgiTokenSpaceGuid.PcdSp804DualTimerInterrupt
+  gArmSgiTokenSpaceGuid.PcdOscCppcEnable
+  gArmSgiTokenSpaceGuid.PcdMhuBaseAddress
+  gArmSgiTokenSpaceGuid.PcdMhuV2AccessRqstOffset
+  gArmSgiTokenSpaceGuid.PcdMhuV2AccessRspnOffset
   gArmSgiTokenSpaceGuid.PcdVirtioBlkBaseAddress
   gArmSgiTokenSpaceGuid.PcdVirtioBlkSize
   gArmSgiTokenSpaceGuid.PcdVirtioBlkInterrupt

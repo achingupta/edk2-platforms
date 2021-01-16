@@ -1,0 +1,186 @@
+/** @file
+*  Copyright (c) 2018-2020, ARM Ltd. All rights reserved.
+*
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
+*
+**/
+
+#include "SgiAcpiHeader.h"
+#include <Library/PcdLib.h>
+
+#define EFI_ACPI_6_3_EINJ_SET_ERROR_TYPE_WITH_ADDRESS 0x8
+#define EINJ_INJECTION_ENTRY_COUNT 0x8
+
+#pragma pack (1)
+
+typedef struct {
+  EFI_ACPI_6_3_ERROR_INJECTION_TABLE_HEADER     Header;
+  EFI_ACPI_6_3_EINJ_INJECTION_INSTRUCTION_ENTRY Entry[EINJ_INJECTION_ENTRY_COUNT];
+} EFI_ACPI_6_3_ERROR_INJECTION_TABLE;
+
+#pragma pack()
+
+STATIC EFI_ACPI_6_3_ERROR_INJECTION_TABLE Einj = {
+  {
+    ARM_ACPI_HEADER   // EFI_ACPI_DESCRIPTION_HEADER
+    (
+      EFI_ACPI_6_3_ERROR_INJECTION_TABLE_SIGNATURE,
+      EFI_ACPI_6_3_ERROR_INJECTION_TABLE,
+      EFI_ACPI_6_3_ERROR_INJECTION_TABLE_REVISION
+    ),
+    sizeof (EFI_ACPI_6_3_ERROR_INJECTION_TABLE_HEADER),   // InjectionHeaderSize
+    0x0,   // InjectionFlags
+    // Reserved
+    {
+      0x0,
+      0x0,
+      0x0
+    },
+    EINJ_INJECTION_ENTRY_COUNT   // InjectionEntryCount
+  },
+  // Injection Instruction Enteries
+  {
+    // Begin Injection Operation Entry
+    {
+      EFI_ACPI_6_3_EINJ_BEGIN_INJECTION_OPERATION,
+      EFI_ACPI_6_3_EINJ_WRITE_REGISTER_VALUE,
+      0,   // Flag
+      0,   // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        32,
+        0,
+        EFI_ACPI_6_3_DWORD,
+        0xFF630200
+      },
+      0x00000000FF631000,   // 64-bit pointer to trigger error action table
+      0xffffffffffffffff    // Register region Mask
+    },
+    // Get Error Type Instruction Entry
+    {
+      EFI_ACPI_6_0_EINJ_GET_ERROR_TYPE,
+      EFI_ACPI_6_0_EINJ_WRITE_REGISTER_VALUE,
+      0,   // Flag
+      0,   // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        32,
+        0,
+        EFI_ACPI_6_3_DWORD,
+        0xFF630000
+      },   // Register region (GAR)
+      EFI_ACPI_6_3_EINJ_ERROR_MEMORY_CORRECTABLE,   // Supported Error Types by platform (Memory, Processor, PCI)
+      0xffffffffffffffff    // Register region Mask
+    },
+    // Execute Operation Instruction Entry
+    {
+      EFI_ACPI_6_3_EINJ_EXECUTE_OPERATION,
+      EFI_ACPI_6_0_EINJ_WRITE_REGISTER_VALUE,
+      0,   // Flag
+      0,   // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        32,
+        0,
+        EFI_ACPI_6_3_DWORD,
+        (FixedPcdGet64 (PcdMhuBaseAddress) + FixedPcdGet32 (PcdMhuV2AccessRqstOffset))
+      },
+      0x0000000000000001,   // Value
+      0xffffffffffffffff    // Register region Mask
+    },
+    // Set Error Type With Address
+    {
+      EFI_ACPI_6_3_EINJ_SET_ERROR_TYPE_WITH_ADDRESS,
+      EFI_ACPI_6_0_EINJ_WRITE_REGISTER,
+      0,  // Flag
+      0,  // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        64,
+        0,
+        EFI_ACPI_6_3_QWORD,
+        0xFF630100
+      },
+      0x0000000000000000,   // Value
+      0xffffffffffffffff    // Register region Mask
+    },
+    // Check Busy Status
+    {
+      EFI_ACPI_6_3_EINJ_CHECK_BUSY_STATUS,
+      EFI_ACPI_6_3_EINJ_READ_REGISTER_VALUE,
+      0,   // Flag
+      0,   // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        32,
+        0,
+        EFI_ACPI_6_3_DWORD,
+        (FixedPcdGet64 (PcdMhuBaseAddress) + FixedPcdGet32 (PcdMhuV2AccessRspnOffset))
+      },
+      0x0000000000000000,   // Value
+      0xffffffffffffffff    // Register region Mask
+    },
+    // Get Status of Current Operation
+    {
+      EFI_ACPI_6_3_EINJ_GET_COMMAND_STATUS,
+      EFI_ACPI_6_3_EINJ_READ_REGISTER,
+      0,   // Flag
+      0,   // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        64,
+        0,
+        EFI_ACPI_6_3_QWORD,
+        0xFF630500
+      },
+      0x0000000000000000,   // Value
+      0xffffffffffffffff    // Register region Mask
+    },
+    // Get Trigger Action Table
+    {
+      EFI_ACPI_6_3_EINJ_GET_TRIGGER_ERROR_ACTION_TABLE,
+      EFI_ACPI_6_3_EINJ_READ_REGISTER,
+      0,   // Flag
+      0,   // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        64,
+        0,
+        EFI_ACPI_6_3_QWORD,
+        0xFF630200
+      },
+      0x0000000000000000,   // Value
+      0xffffffffffffffff    // Register region Mask
+    },
+    // End Injection Operation
+    {
+      EFI_ACPI_6_3_EINJ_END_OPERATION,
+      EFI_ACPI_6_3_EINJ_WRITE_REGISTER_VALUE,
+      0,   // Flag
+      0,   // Reserved
+      // Register region (GAR)
+      {
+        EFI_ACPI_6_3_SYSTEM_MEMORY,
+        64,
+        0,
+        EFI_ACPI_6_3_QWORD,
+        0xFF630600
+      },
+      0x0000000000000000,   // Value
+      0xffffffffffffffff    // Register region Mask
+    }
+  }
+};
+
+/*
+ * Reference the table being generated to prevent the optimizer from removing
+ * the data structure from the executable
+ */
+VOID* CONST ReferenceAcpiTable = &Einj;

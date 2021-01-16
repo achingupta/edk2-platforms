@@ -94,6 +94,8 @@
   ## MHU base address
   gArmSgiTokenSpaceGuid.PcdMhuBaseAddress|0x45000000|UINT64|0x00001005
   gArmSgiTokenSpaceGuid.PcdMhuChannelSetOffset|0x0|UINT32|0x00001006
+  gArmSgiTokenSpaceGuid.PcdMhuV2AccessRqstOffset|0xF88|UINT32|0x00001007
+  gArmSgiTokenSpaceGuid.PcdMhuV2AccessRspnOffset|0xF8C|UINT32|0x00001008
 
 [Ppis]
   gNtFwConfigDtInfoPpiGuid     = { 0x6f606eb3, 0x9123, 0x4e15, { 0xa8, 0x9b, 0x0f, 0xac, 0x66, 0xef, 0xd0, 0x17 } }

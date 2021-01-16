@@ -45,6 +45,12 @@
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x300C0000
   gArmSgiTokenSpaceGuid.PcdGicSize|0x100000
 
+  # MHU base address
+  gArmSgiTokenSpaceGuid.PcdMhuBaseAddress|0x45000000
+  gArmSgiTokenSpaceGuid.PcdMhuChannelSetOffset|0xC
+  gArmSgiTokenSpaceGuid.PcdMhuV2AccessRqstOffset|0xF88
+  gArmSgiTokenSpaceGuid.PcdMhuV2AccessRspnOffset|0xF8C
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
