@@ -86,6 +86,8 @@ Dmc620HandleDramError (
   ResetReg = MmioRead32 ((UINTN)&ErrRecord->ErrStatus);
   MmioWrite32 ((UINTN)&ErrRecord->ErrStatus, ResetReg);
 
+  ErrStatus = MmioRead32 ((UINTN)&DmcCtrl->Err4Status);//hack
+
   //
   // Get Physical address of DRAM error from Error Record Address register
   // and populate Memory Error Section.
@@ -166,6 +168,10 @@ Dmc620HandleDramError (
   //
   ResetReg = MmioRead32 ((UINTN)&ErrRecord->ErrStatus);
   MmioWrite32 ((UINTN)&ErrRecord->ErrStatus, ResetReg);
+
+  ErrStatus = 0;//hack
+  ResetReg = MmioRead32 ((UINTN)&DmcCtrl->Err4Status);
+  MmioWrite32 ((UINTN)&DmcCtrl->Err4Status, ResetReg);
 
   //
   // Allocate memory for Error Acknowledge register, Error Status register and
@@ -280,6 +286,7 @@ Dmc620ErrorEventHandler (
     ));
 
   ErrGsr = MmioRead32 ((UINTN)&DmcCtrl->Errgsr);
+  ErrGsr = 0x2; //hack
 
   if (ErrGsr & DMC620_ERR_GSR_ECC_CORRECTED_FH) {
     // Handle corrected 1-bit DRAM ECC error.

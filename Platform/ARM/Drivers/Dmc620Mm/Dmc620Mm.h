@@ -96,7 +96,10 @@ typedef struct {
   UINT32 Err2Misc4;
   UINT32 Err2Misc5;
   UINT8  Reserved10[RESV_2];
-  UINT32 Reserved11[RESV_3];
+  //UINT32 Reserved11[RESV_3];
+  UINT32 Reserved15[0x14];//hack
+  UINT32 Err4Status;
+  UINT32 Reserved16[0x43];//hack
   UINT32 Errgsr;
 } DMC620_REGS_TYPE;
 
