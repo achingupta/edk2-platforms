@@ -103,6 +103,7 @@
   gArmSgiTokenSpaceGuid.PcdVirtioBlkSupported|TRUE
   gArmSgiTokenSpaceGuid.PcdVirtioNetSupported|TRUE
   gEfiMdeModulePkgTokenSpaceGuid.PcdEnableVariableRuntimeCache|FALSE
+  gEfiMdeModulePkgTokenSpaceGuid.PcdInstallAcpiSdtProtocol|TRUE
 
 [PcdsFixedAtBuild.common]
   gArmTokenSpaceGuid.PcdVFPEnabled|1
