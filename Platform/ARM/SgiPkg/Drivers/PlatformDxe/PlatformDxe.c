@@ -11,6 +11,10 @@
 #include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
 #include <Library/HobLib.h>
+#include <Library/UefiBootServicesTableLib.h>
+
+#include <Protocol/AcpiTable.h>
+#include <Protocol/AcpiSystemDescriptionTable.h>
 #include <SgiPlatform.h>
 
 #define EINJ_TRIGGER_ERROR_ACTION_NO    2
@@ -41,6 +45,10 @@ ArmSgiPkgEntryPoint (
   }
 
   InitVirtioDevices ();
+
+  /* ToDo: Cleanup the code below */
+  if ((SgiGetProductId () != Sgi575) && (SgiGetProductId () != RdN1Edge))
+    return EFI_SUCCESS;
 
   if (FeaturePcdGet (PcdEinjSupported)) {
     // Initialize the EINJ Instruction Buffer memory space
@@ -101,5 +109,57 @@ ArmSgiPkgEntryPoint (
       }
     };
   }
+  else {
+    EFI_ACPI_SDT_PROTOCOL   *AcpiSdtProtocol = NULL;
+    EFI_ACPI_TABLE_PROTOCOL *AcpiTableProtocol = NULL;
+    EFI_ACPI_TABLE_VERSION  TableVersion;
+    UINTN                   TableIndex = 0;
+    UINTN                   TableKey = 0;
+    VOID                    *TableHeader = NULL;
+
+    Status = gBS->LocateProtocol(
+                    &gEfiAcpiSdtProtocolGuid,
+                    NULL,
+                    (VOID**) &AcpiSdtProtocol
+                    );
+    if (EFI_ERROR (Status)) {
+      return Status;
+    }
+
+    Status = gBS->LocateProtocol(
+                    &gEfiAcpiTableProtocolGuid,
+                    NULL,
+                    (VOID**) &AcpiTableProtocol
+                    );
+    if (EFI_ERROR (Status)) {
+      return Status;
+    }
+
+    while (!EFI_ERROR (Status)) {
+      Status = AcpiSdtProtocol->GetAcpiTable (
+                                   TableIndex,
+                                   (EFI_ACPI_SDT_HEADER **)&TableHeader,
+                                   &TableVersion,
+                                   &TableKey
+                                   );
+      if (!EFI_ERROR (Status)) {
+        TableIndex++;
+
+      if (((EFI_ACPI_SDT_HEADER *)TableHeader)->Signature ==
+            EFI_ACPI_6_3_ERROR_INJECTION_TABLE_SIGNATURE) {
+          Status = AcpiTableProtocol->UninstallAcpiTable (
+                                         AcpiTableProtocol,
+                                         TableKey
+                                         );
+          if (EFI_ERROR (Status)) {
+            return Status;
+          }
+
+	  break;
+        }
+      }
+    }
+  }
+
   return Status;
 }

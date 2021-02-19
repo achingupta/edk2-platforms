@@ -24,9 +24,14 @@
 
 [LibraryClasses]
   AcpiLib
+  ArmPlatformLib
   HobLib
   UefiDriverEntryPoint
   VirtioMmioDeviceLib
+
+[Protocols]
+  gEfiAcpiTableProtocolGuid          ## CONSUMES
+  gEfiAcpiSdtProtocolGuid            ## CONSUMES
 
 [Guids]
   gArmSgiPlatformIdDescriptorGuid
@@ -48,4 +53,4 @@
   gArmSgiTokenSpaceGuid.PcdVirtioNetSize
 
 [Depex]
-  TRUE
+  gEfiAcpiTableProtocolGuid AND gEfiAcpiSdtProtocolGuid
