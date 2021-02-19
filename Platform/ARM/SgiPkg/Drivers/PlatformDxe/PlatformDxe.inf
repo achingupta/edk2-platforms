@@ -33,10 +33,13 @@
   gArmSgiAcpiTablesGuid
 
 [FeaturePcd]
+  gArmSgiTokenSpaceGuid.PcdEinjSupported
   gArmSgiTokenSpaceGuid.PcdVirtioBlkSupported
   gArmSgiTokenSpaceGuid.PcdVirtioNetSupported
 
 [FixedPcd]
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferBase
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferSize
   gArmSgiTokenSpaceGuid.PcdMhuBaseAddress
   gArmSgiTokenSpaceGuid.PcdMhuChannelSetOffset
   gArmSgiTokenSpaceGuid.PcdVirtioBlkBaseAddress

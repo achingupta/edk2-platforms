@@ -32,6 +32,7 @@
   gArmSgiTokenSpaceGuid.PcdVirtioBlkSupported|FALSE|BOOLEAN|0x00000001
   gArmSgiTokenSpaceGuid.PcdVirtioNetSupported|FALSE|BOOLEAN|0x00000010
   gArmSgiTokenSpaceGuid.PcdGhesMmSupported|FALSE|BOOLEAN|0x00000027
+  gArmSgiTokenSpaceGuid.PcdEinjSupported|FALSE|BOOLEAN|0x00001004
 
 [PcdsFixedAtBuild]
   gArmSgiTokenSpaceGuid.PcdDramBlock2Base|0|UINT64|0x00000002
@@ -96,6 +97,10 @@
   gArmSgiTokenSpaceGuid.PcdMhuChannelSetOffset|0x0|UINT32|0x00001006
   gArmSgiTokenSpaceGuid.PcdMhuV2AccessRqstOffset|0xF88|UINT32|0x00001007
   gArmSgiTokenSpaceGuid.PcdMhuV2AccessRspnOffset|0xF8C|UINT32|0x00001008
+
+  ## EINJ Instruction Memory Space
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferBase|0x00000000|UINT64|0x00001009
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferSize|0x00000000|UINT64|0x0000100A
 
 [Ppis]
   gNtFwConfigDtInfoPpiGuid     = { 0x6f606eb3, 0x9123, 0x4e15, { 0xa8, 0x9b, 0x0f, 0xac, 0x66, 0xef, 0xd0, 0x17 } }

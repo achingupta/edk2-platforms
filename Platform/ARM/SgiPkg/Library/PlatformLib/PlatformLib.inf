@@ -81,12 +81,15 @@
 
   gArmPlatformTokenSpaceGuid.PcdGhesGenericErrorDataMmBufferBase
   gArmPlatformTokenSpaceGuid.PcdGhesGenericErrorDataMmBufferSize
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferBase
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferSize
 
   gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase
 
 [FeaturePcd]
+  gArmSgiTokenSpaceGuid.PcdEinjSupported
   gArmSgiTokenSpaceGuid.PcdGhesMmSupported
 
 [Guids]

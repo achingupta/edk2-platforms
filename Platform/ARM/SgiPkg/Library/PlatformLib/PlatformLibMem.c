@@ -17,8 +17,9 @@
 
 // Total number of descriptors, including the final "end-of-table" descriptor.
 #define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS                 \
-          (14 + (FixedPcdGet32 (PcdChipCount) * 2)) +      \
-          (FeaturePcdGet (PcdGhesMmSupported))
+          (15 + (FixedPcdGet32 (PcdChipCount) * 2)) +      \
+          (FeaturePcdGet (PcdGhesMmSupported)) +           \
+          (FeaturePcdGet (PcdEinjSupported))
 
 /**
   Returns the Virtual Memory Map of the platform.
@@ -246,6 +247,14 @@ ArmPlatformGetVirtualMemoryMap (
     VirtualMemoryTable[Index].VirtualBase     = PcdGet64 (PcdGhesGenericErrorDataMmBufferBase);
     VirtualMemoryTable[Index].Length          = PcdGet64 (PcdGhesGenericErrorDataMmBufferSize);
     VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+  }
+
+  if (FeaturePcdGet (PcdEinjSupported)) {
+    // EINJ Instruction Memory Space
+    VirtualMemoryTable[++Index].PhysicalBase  = PcdGet64 (PcdEinjInstBufferBase);
+    VirtualMemoryTable[Index].VirtualBase     = PcdGet64 (PcdEinjInstBufferBase);
+    VirtualMemoryTable[Index].Length          = PcdGet64 (PcdEinjInstBufferSize);
+    VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED;
   }
 
   // End of Table

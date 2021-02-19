@@ -8,6 +8,7 @@
 #include <IndustryStandard/Acpi.h>
 
 #include <Library/AcpiLib.h>
+#include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
 #include <Library/HobLib.h>
 #include <SgiPlatform.h>
@@ -41,11 +42,17 @@ ArmSgiPkgEntryPoint (
 
   InitVirtioDevices ();
 
-  if (FeaturePcdGet (PcdHestSupported)) {
-    // Populate Trigger Action table at address 0xFF611000 which is pointed by
+  if (FeaturePcdGet (PcdEinjSupported)) {
+    // Initialize the EINJ Instruction Buffer memory space
+    ZeroMem (
+      (VOID *)(PcdGet64 (PcdEinjInstBufferBase)),
+      PcdGet64 (PcdEinjInstBufferSize)
+    );
+
+    // Populate Trigger Action table at address 0xFF631000 which is pointed by
     // Get Trigger Error Action instruction.
     EINJ_TRIGGER_ERROR_ACTION *mEinjTriggerErrorAction =
-                                (EINJ_TRIGGER_ERROR_ACTION*) 0xFF611000;
+                                (EINJ_TRIGGER_ERROR_ACTION*) 0xFF631000;
 
     // Trigger Error Action Table.
     *mEinjTriggerErrorAction = (EINJ_TRIGGER_ERROR_ACTION) {

@@ -115,6 +115,10 @@
   gArmSgiTokenSpaceGuid.PcdGhesMmSupported|TRUE
 !endif
 
+!ifdef EDK2_ENABLE_EINJ
+  gArmSgiTokenSpaceGuid.PcdEinjSupported|TRUE
+!endif
+
 [PcdsFixedAtBuild.common]
   gArmTokenSpaceGuid.PcdVFPEnabled|1
   gEfiMdeModulePkgTokenSpaceGuid.PcdMaxVariableSize|0x2000
@@ -231,6 +235,12 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemRevision|0x20200831
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorId|0x204d5241 # ARM
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorRevision|1
+
+!ifdef EDK2_ENABLE_EINJ
+  ## Error Injection Instruction Memory Space
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferBase|0xFF630000
+  gArmSgiTokenSpaceGuid.PcdEinjInstBufferSize|0x10000
+!endif
 
 ################################################################################
 #
