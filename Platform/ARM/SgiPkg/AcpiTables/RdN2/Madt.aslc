@@ -50,68 +50,52 @@ STATIC EFI_ACPI_6_2_MULTIPLE_APIC_DESCRIPTION_TABLE Madt = {
     // (see note in 5.2.12.14 GICC Structure of ACPI v6.2).
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core0
       0, 0, GET_MPID(0x0, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core1
       0, 1, GET_MPID(0x100, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core2
       0, 2, GET_MPID(0x200, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core3
       0, 3, GET_MPID(0x300, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core4
       0, 4, GET_MPID(0x400, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core5
       0, 5, GET_MPID(0x500, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core6
       0, 6, GET_MPID(0x600, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core7
       0, 7, GET_MPID(0x700, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core8
       0, 8, GET_MPID(0x800, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core9
       0, 9, GET_MPID(0x900, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core10
       0, 10, GET_MPID(0xa00, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core11
       0, 11, GET_MPID(0xb00, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core12
       0, 12, GET_MPID(0xc00, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core13
       0, 13, GET_MPID(0xd00, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core14
       0, 14, GET_MPID(0xe00, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
     EFI_ACPI_6_2_GICC_STRUCTURE_INIT( // Neoverse N2 core15
       0, 15, GET_MPID(0xf00, 0x0), EFI_ACPI_6_2_GIC_ENABLED, 23,
-      FixedPcdGet32 (PcdGicDistributorBase),
-      0x2c020000, 0x2c010000, 25, 0 /* GicRBase */, 0 /* Efficiency */),
+      0, 0, 0, 25, 0, 0),
   },
   // GIC Distributor Entry
   EFI_ACPI_6_2_GIC_DISTRIBUTOR_INIT(0, FixedPcdGet32 (PcdGicDistributorBase),
