@@ -77,6 +77,11 @@
   # SMMU
   gArmSgiTokenSpaceGuid.PcdSmmuBase|0|UINT32|0x0000001D
   gArmSgiTokenSpaceGuid.PcdSmmuSize|0|UINT32|0x0000001E
+  gArmSgiTokenSpaceGuid.PcdSmmuEventGsiv|0|UINT32|0x00001100
+  gArmSgiTokenSpaceGuid.PcdSmmuGErrorGsiv|0|UINT32|0x00001101
+  gArmSgiTokenSpaceGuid.PcdSmmuPriGsiv|0|UINT32|0x00001102
+  gArmSgiTokenSpaceGuid.PcdSmmuSyncGsiv|0|UINT32|0x00001103
+  gArmSgiTokenSpaceGuid.PcdSmmuDevIDBase|0|UINT32|0x00001104
 
   # GPIO Controller
   gArmSgiTokenSpaceGuid.PcdGpioController0BaseAddress|0|UINT32|0x0000001F
@@ -106,6 +111,8 @@
   gArmSgiTokenSpaceGuid.PcdPciBusCountPerRb|0|UINT32|0x1011
   gArmSgiTokenSpaceGuid.PcdPciMmio32SizePerRb|0|UINT64|0x1012
   gArmSgiTokenSpaceGuid.PcdPciMmio64SizePerRb|0|UINT64|0x1013
+
+  gArmSgiTokenSpaceGuid.PcdPciRpx16DevIDBase|0|UINT64|0x1014
 
   # Number of PCIe root bridge on the platform
   gArmSgiTokenSpaceGuid.PcdPciNumRootBridge|1|UINT32|0x104E

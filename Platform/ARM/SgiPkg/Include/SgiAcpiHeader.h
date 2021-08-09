@@ -9,7 +9,10 @@
 #ifndef __SGI_ACPI_HEADER__
 #define __SGI_ACPI_HEADER__
 
+#include <IndustryStandard/IoRemappingTable.h>
 #include <IndustryStandard/Acpi.h>
+
+#include "SgiPlatform.h"
 
 //
 // ACPI table information used to initialize tables.
@@ -506,6 +509,113 @@ typedef struct {
     Domain,         /* Domain */                                               \
     0xFD,           /* Coord Type- SW_ANY */                                   \
     1               /* Processors */                                           \
+  }
+
+#pragma pack(1)
+
+typedef struct
+{
+  EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE       ItsNode;
+  UINT32                                   ItsIdentifiers;
+} ARM_EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE;
+
+typedef struct
+{
+  EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE     SmmuNode;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE       SmmuIdMap[2];
+} ARM_EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE;
+
+#pragma pack ()
+
+// Number of DeviceIDs per PCI RC:
+// (Max num of buses * Max PCI dev per bus * Max PCI func per device)
+#define PCI_NUM_IDS_PER_RC                \
+          (FixedPcdGet32 (PcdPciBusCountPerRb) * 32 * 8)
+
+// Input deviceID base for root complex in each IO Virtualization block
+#define PCI_RC_INPUT_BASE(RcNodeIndex)   \
+          PCI_NUM_IDS_PER_RC * RcNodeIndex
+
+// Output deviceID base for root complex in each IO Virtualization block
+#define PCI_RC_OUTPUT_BASE(RcNodeIndex)  \
+          FixedPcdGet32 (PcdPciRpx16DevIDBase) + PCI_RC_INPUT_BASE(RcNodeIndex)
+
+/** Helper macro for ITS node initialization for Arm Iort table.
+
+    @param [in] IoVirtBlkIndex    Index of IO Virt block that contains ITS
+                                  and SMMU
+**/
+#define EFI_ACPI_ITS_NODE_INIT(IoVirtBlkIndex)                                   \
+  /* ARM_EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE0 */                                \
+  {                                                                            \
+    /* EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE */                                   \
+    {                                                                          \
+      /* EFI_ACPI_6_0_IO_REMAPPING_NODE */                                     \
+      {                                                                        \
+        EFI_ACPI_IORT_TYPE_ITS_GROUP,                    /* Type */            \
+        sizeof (ARM_EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE), /* Length */          \
+        0,                                               /* Revision */        \
+        0,                                               /* Reserved */        \
+        0,                                               /* NumIdMappings */   \
+        0,                                               /* IdReference */     \
+      },                                                                       \
+      1,               /* ITS count */                                         \
+    },                                                                         \
+    IoVirtBlkIndex,    /* GIC ITS Identifiers */                               \
+  }
+
+/** Helper macro for SMMUv3 node initialization for Arm Iort table.
+
+    @param [in] IoVirtBlkIndex    Index of IO Virt block that contains ITS
+                                  and SMMU
+**/
+#define EFI_ACPI_SMMUv3_NODE_INIT(IoVirtBlkIndex, RcNodeIndex)                 \
+  /* SMMU */                                                                   \
+  {                                                                            \
+    /* EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE */                                 \
+    {                                                                          \
+      /* EFI_ACPI_6_0_IO_REMAPPING_NODE */                                     \
+      {                                                                        \
+        EFI_ACPI_IORT_TYPE_SMMUv3,                         /* Type */          \
+        sizeof (ARM_EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE), /* Length */        \
+        2,                                                 /* Revision */      \
+        0,                                                 /* Reserved */      \
+        2,                                                 /* NumIdMapping */  \
+        OFFSET_OF (ARM_EFI_ACPI_6_0_IO_REMAPPING_SMMU3_NODE,                   \
+          SmmuIdMap),                                      /* IdReference */   \
+      },                                                                       \
+      (FixedPcdGet32 (PcdSmmuBase) +                                           \
+        (0x2000000 * IoVirtBlkIndex)),                     /* Base address */  \
+      EFI_ACPI_IORT_SMMUv3_FLAG_COHAC_OVERRIDE,            /* Flags */         \
+      0,                                                   /* Reserved */      \
+      0,                                                   /* VATOS address */ \
+      EFI_ACPI_IORT_SMMUv3_MODEL_GENERIC,                  /* SMMUv3 Model */  \
+      FixedPcdGet32 (PcdSmmuEventGsiv),                    /* Event */         \
+      FixedPcdGet32 (PcdSmmuPriGsiv),                      /* Pri */           \
+      FixedPcdGet32 (PcdSmmuGErrorGsiv),                   /* Gerror */        \
+      FixedPcdGet32 (PcdSmmuSyncGsiv),                     /* Sync */          \
+      0,                                             /* Proximity domain */    \
+      1,                                             /* DevIDMappingIndex */   \
+    },                                                                         \
+    /* EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE */                                   \
+    {                                                                          \
+      {                                                                        \
+        PCI_RC_OUTPUT_BASE(RcNodeIndex),             /* InputBase */           \
+        (PCI_NUM_IDS_PER_RC - 1),                    /* NumIds */              \
+        PCI_RC_OUTPUT_BASE(RcNodeIndex),             /* OutputBase */          \
+        OFFSET_OF (ARM_EFI_ACPI_6_0_IO_REMAPPING_TABLE,                        \
+          ItsNode ##IoVirtBlkIndex),                 /* OutputReference */     \
+        0,                                           /* Flags */               \
+      },                                                                       \
+      {                                                                        \
+        0x0,                                         /* InputBase */           \
+        0x1,                                         /* NumIds */              \
+        FixedPcdGet32 (PcdSmmuDevIDBase),            /* OutputBase */          \
+        OFFSET_OF (ARM_EFI_ACPI_6_0_IO_REMAPPING_TABLE,                        \
+          ItsNode ##IoVirtBlkIndex),                 /* OutputReference */     \
+        EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE,       /* Flags */               \
+      },                                                                       \
+    },                                                                         \
   }
 
 #endif /* __SGI_ACPI_HEADER__ */
