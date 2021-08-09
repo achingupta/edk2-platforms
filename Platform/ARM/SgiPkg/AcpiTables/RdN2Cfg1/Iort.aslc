@@ -140,6 +140,78 @@ ARM_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort =
       },
     }
   },
+
+  // ARM_EFI_ACPI_6_0_IO_REMAPPING_DMA_NC_NODE
+  {
+    // DMA named component node
+    {
+      {
+        EFI_ACPI_IORT_TYPE_NAMED_COMP,                       // Type
+        sizeof (ARM_EFI_ACPI_6_0_IO_REMAPPING_DMA_NC_NODE),  // Length
+        2,                                                   // Revision
+        0x0,                                                 // Reserved
+        9,                                                   // NumIdMappings
+        OFFSET_OF (ARM_EFI_ACPI_6_0_IO_REMAPPING_DMA_NC_NODE, DmaIdMap)  // IdReference
+      },
+      0x0,                                          // Flags
+      0x1,                                          // CacheCoherent
+      0x0,                                          // AllocationHints
+      0x0,                                          // Reserved
+      0x0,                                          // MemoryAccessFlags
+      0x30,                                         // AddressSizeLimit
+    },
+    {
+        "\\_SB_.DMA0"
+    },
+    // ID mapping table
+    {
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 0, 1),  // Data Channel - 0
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 1, 1),  // Data Channel - 1
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 2, 1),  // Data Channel - 2
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 3, 1),  // Data Channel - 3
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 4, 1),  // Data Channel - 4
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 5, 1),  // Data Channel - 5
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 6, 1),  // Data Channel - 6
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 7, 1),  // Data Channel - 7
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(0, 8, 1),  // Instruction channel
+    },
+  },
+
+  // ARM_EFI_ACPI_6_0_IO_REMAPPING_DMA_NC_NODE
+  {
+    // DMA named component node
+    {
+      {
+        EFI_ACPI_IORT_TYPE_NAMED_COMP,                       // Type
+        sizeof (ARM_EFI_ACPI_6_0_IO_REMAPPING_DMA_NC_NODE),  // Length
+        2,                                                   // Revision
+        0x0,                                                 // Reserved
+        9,                                                   // NumIdMappings
+        OFFSET_OF (ARM_EFI_ACPI_6_0_IO_REMAPPING_DMA_NC_NODE, DmaIdMap)  // IdReference
+      },
+      0x0,                                          // Flags
+      0x1,                                          // CacheCoherent
+      0x0,                                          // AllocationHints
+      0x0,                                          // Reserved
+      0x0,                                          // MemoryAccessFlags
+      0x30,                                         // AddressSizeLimit
+    },
+    {
+        "\\_SB_.DMA1"
+    },
+    // ID mapping table
+    {
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 0, 1),  // Data Channel - 0
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 1, 1),  // Data Channel - 1
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 2, 1),  // Data Channel - 2
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 3, 1),  // Data Channel - 3
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 4, 1),  // Data Channel - 4
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 5, 1),  // Data Channel - 5
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 6, 1),  // Data Channel - 6
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 7, 1),  // Data Channel - 7
+      EFI_ACPI_DMA_NC_ID_TABLE_INIT(1, 8, 1),  // Instruction channel
+    },
+  },
 };
 
 VOID* CONST ReferenceAcpiTable = &Iort;

@@ -52,6 +52,11 @@
   gArmSgiTokenSpaceGuid.PcdPciMmio32SizePerRb|0x10000000
   gArmSgiTokenSpaceGuid.PcdPciMmio64SizePerRb|0x2000000000
 
+  gArmSgiTokenSpaceGuid.PcdPciRpx16DevIDBase|0x30000
+  gArmSgiTokenSpaceGuid.PcdPciRpx8DevIDBase|0x20000
+  gArmSgiTokenSpaceGuid.PcdPciRpx41DevIDBase|0x10000
+  gArmSgiTokenSpaceGuid.PcdPciRpx40DevIDBase|0x00000
+
 [PcdsFeatureFlag.common]
   # IO virtualization block non-discoverable peripherals
   gArmSgiTokenSpaceGuid.PcdIoVirtBlkNonDiscoverable|TRUE
