@@ -114,6 +114,9 @@
   gArmSgiTokenSpaceGuid.PcdPciMmio64SizePerRb|0|UINT64|0x1013
 
   gArmSgiTokenSpaceGuid.PcdPciRpx16DevIDBase|0|UINT64|0x1014
+  gArmSgiTokenSpaceGuid.PcdPciRpx8DevIDBase|0|UINT64|0x1015
+  gArmSgiTokenSpaceGuid.PcdPciRpx41DevIDBase|0|UINT64|0x1016
+  gArmSgiTokenSpaceGuid.PcdPciRpx40DevIDBase|0|UINT64|0x1017
 
   # IO virtualization block PL011 UARTs
   gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Base|0|UINT64|0x1020
@@ -125,6 +128,37 @@
   gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1End|0|UINT64|0x1025
   gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Size|0|UINT64|0x1026
   gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Interrupt|0|UINT32|0x1027
+
+  # IO virtualization block PL330 DMA controllers
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0BaseAddress|0|UINT64|0x1030
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0EndAddress|0|UINT64|0x1031
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Size|0|UINT32|0x1032
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0NumCh|0|UINT32|0x1033
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch0Gsiv|0|UINT32|0x1034
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch1Gsiv|0|UINT32|0x1035
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch2Gsiv|0|UINT32|0x1036
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch3Gsiv|0|UINT32|0x1037
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch4Gsiv|0|UINT32|0x1038
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch5Gsiv|0|UINT32|0x1039
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch6Gsiv|0|UINT32|0x103A
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch7Gsiv|0|UINT32|0x103B
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0AbortGsiv|0|UINT32|0x103C
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0StreamIDBase|0|UINT32|0x103D
+
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1BaseAddress|0|UINT64|0x1040
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1EndAddress|0|UINT64|0x1041
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Size|0|UINT32|0x1042
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1NumCh|0|UINT32|0x1043
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch0Gsiv|0|UINT32|0x1044
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch1Gsiv|0|UINT32|0x1045
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch2Gsiv|0|UINT32|0x1046
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch3Gsiv|0|UINT32|0x1047
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch4Gsiv|0|UINT32|0x1048
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch5Gsiv|0|UINT32|0x1049
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch6Gsiv|0|UINT32|0x104A
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch7Gsiv|0|UINT32|0x104B
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1AbortGsiv|0|UINT32|0x104C
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1StreamIDBase|0|UINT32|0x104D
 
   # Number of PCIe root bridge on the platform
   gArmSgiTokenSpaceGuid.PcdPciNumRootBridge|1|UINT32|0x104E

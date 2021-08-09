@@ -77,3 +77,31 @@
   gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Size|0x10000
   gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Interrupt|502
 
+  # IO virtualization block PL330 DMA controllers
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0BaseAddress|0xC00010000000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0EndAddress|0xC0001000FFFF
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Size|0x10000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0NumCh|8
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch0Gsiv|493
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch1Gsiv|494
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch2Gsiv|495
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch3Gsiv|496
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch4Gsiv|497
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch5Gsiv|498
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch6Gsiv|499
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0Ch7Gsiv|500
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma0AbortGsiv|501
+
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1BaseAddress|0xC00030000000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1EndAddress|0xC0003000FFFF
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Size|0x10000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1NumCh|8
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch0Gsiv|503
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch1Gsiv|504
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch2Gsiv|505
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch3Gsiv|506
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch4Gsiv|507
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch5Gsiv|508
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch6Gsiv|509
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1Ch7Gsiv|510
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkDma1AbortGsiv|511

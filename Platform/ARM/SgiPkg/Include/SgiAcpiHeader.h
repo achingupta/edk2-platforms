@@ -629,6 +629,39 @@ typedef struct
      0,                                        /* Flags */                     \
    }
 
+
+// StreamID base for PL330 DMA0 controller
+#define DMA0_NC_SID_BASE                          \
+          FixedPcdGet32 (PcdPciRpx41DevIDBase) +  \
+	  FixedPcdGet32 (PcdIoVirtBlkDma0StreamIDBase)
+// StreamID base for PL330 DMA1 controller
+#define DMA1_NC_SID_BASE                          \
+          FixedPcdGet32 (PcdPciRpx16DevIDBase) +  \
+	  FixedPcdGet32 (PcdIoVirtBlkDma1StreamIDBase)
+
+/** Helper macro for DMA Named Component node for ID table initialization
+    for Arm Iort table.
+    Output StreamID for a channel can be calculated as -
+    ((IDBase for x16/x8/x4_1/x4_0) + BaseSID of DMA controller) + Channel Idx).
+
+    @param [in] DmaIdx           Index of DMA pl330 controller - out of 0 and
+                                 1 on the non-PCI IO Virt block.
+    @param [in] ChStreamIdx      Channel index within one DMA controller -
+                                 0 to 7.
+    @param [in] SmmuNodeIdx      SMMUv3 ID associated with DMA Named Component.
+                                 SMMUv3 is present in the same IO Virt block
+				 as DMA.
+**/
+#define EFI_ACPI_DMA_NC_ID_TABLE_INIT(DmaIdx, ChStreamIdx, SmmuNodeIdx)        \
+  {                                                                            \
+    ChStreamIdx,                                  /* InputBase */              \
+    1,                                            /* NumIds */                 \
+    DMA ##DmaIdx ## _NC_SID_BASE + ChStreamIdx,   /* OutputBase */             \
+    OFFSET_OF (ARM_EFI_ACPI_6_0_IO_REMAPPING_TABLE,                            \
+      SmmuNode ##SmmuNodeIdx),                    /* OutputReference */        \
+    EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE,        /* Flags */                  \
+  }
+
 #define EFI_ACPI_PCI_RC_ECAM_INIT(PciIndex)                                    \
   {                                                                            \
     FixedPcdGet64 (PcdPciExpressBaseAddress),  /* Base Address */              \
