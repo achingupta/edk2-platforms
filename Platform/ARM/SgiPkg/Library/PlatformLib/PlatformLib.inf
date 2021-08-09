@@ -88,9 +88,13 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase
 
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Base
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Base
+
 [FeaturePcd]
   gArmSgiTokenSpaceGuid.PcdEinjSupported
   gArmSgiTokenSpaceGuid.PcdGhesMmSupported
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkNonDiscoverable
 
 [Guids]
   gArmSgiPlatformIdDescriptorGuid

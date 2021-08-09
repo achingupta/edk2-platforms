@@ -12,6 +12,7 @@
 #include <Library/DebugLib.h>
 #include <Library/HobLib.h>
 #include <Library/UefiBootServicesTableLib.h>
+#include <Library/PL011UartLib.h>
 
 #include <Protocol/AcpiTable.h>
 #include <Protocol/AcpiSystemDescriptionTable.h>
@@ -29,6 +30,74 @@ InitVirtioDevices (
   VOID
   );
 
+/**
+  Initialize UART controllers connected to IO Virtualization block.
+
+  Use PL011UartLib Library to initialize UART controllers connected
+  to X4_0 and X8 port of the IO Virtualization block.
+
+  @retval Nothing
+**/
+STATIC
+VOID
+InitIoVirtBlkUartControllers (VOID)
+{
+  EFI_STATUS Status;
+  UINT64 BaudRate;
+  UINT32 ReceiveFifoDepth;
+  EFI_PARITY_TYPE Parity;
+  UINT8 DataBits;
+  EFI_STOP_BITS_TYPE StopBits;
+
+  if (!FeaturePcdGet (PcdIoVirtBlkNonDiscoverable))
+    return;
+
+  ReceiveFifoDepth = 0;
+  Parity = 1;
+  DataBits = 8;
+  StopBits = 1;
+  BaudRate = 115200;
+
+  // Use PL011Uart Library to initialize the X4: PL011_UART0
+  Status = PL011UartInitializePort (
+             (UINTN)FixedPcdGet64 (PcdIoVirtBlkUart0Base),
+             FixedPcdGet32 (PcdSerialDbgUartClkInHz),
+             &BaudRate,
+             &ReceiveFifoDepth,
+             &Parity,
+             &DataBits,
+             &StopBits
+             );
+
+  if (EFI_ERROR (Status)) {
+    DEBUG ((
+      DEBUG_ERROR,
+      "Failed to initialize IO Virt Block X4_0: PL011_UART0, status: %r\n",
+      Status
+      ));
+  }
+
+  // Use PL011Uart Library to initialize the X8: PL011_UART1
+  Status = PL011UartInitializePort (
+             (UINTN)FixedPcdGet64 (PcdIoVirtBlkUart1Base),
+             FixedPcdGet32 (PcdSerialDbgUartClkInHz),
+             &BaudRate,
+             &ReceiveFifoDepth,
+             &Parity,
+             &DataBits,
+             &StopBits
+             );
+
+  if (EFI_ERROR (Status)) {
+    DEBUG ((
+      DEBUG_ERROR,
+      "Failed to initialize IO Virt Block X8: PL011_UART1, status: %r\n",
+      Status
+      ));
+  }
+
+}
+
 EFI_STATUS
 EFIAPI
 ArmSgiPkgEntryPoint (
@@ -45,6 +114,8 @@ ArmSgiPkgEntryPoint (
   }
 
   InitVirtioDevices ();
+
+  InitIoVirtBlkUartControllers ();
 
   /* ToDo: Cleanup the code below */
   if ((SgiGetProductId () != Sgi575) && (SgiGetProductId () != RdN1Edge))

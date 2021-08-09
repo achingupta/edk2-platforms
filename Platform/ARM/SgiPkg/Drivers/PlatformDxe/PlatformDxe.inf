@@ -17,6 +17,7 @@
   VirtioDevices.c
 
 [Packages]
+  ArmPlatformPkg/ArmPlatformPkg.dec
   EmbeddedPkg/EmbeddedPkg.dec
   MdePkg/MdePkg.dec
   OvmfPkg/OvmfPkg.dec
@@ -41,6 +42,7 @@
   gArmSgiTokenSpaceGuid.PcdEinjSupported
   gArmSgiTokenSpaceGuid.PcdVirtioBlkSupported
   gArmSgiTokenSpaceGuid.PcdVirtioNetSupported
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkNonDiscoverable
 
 [FixedPcd]
   gArmSgiTokenSpaceGuid.PcdEinjInstBufferBase
@@ -51,6 +53,9 @@
   gArmSgiTokenSpaceGuid.PcdVirtioBlkSize
   gArmSgiTokenSpaceGuid.PcdVirtioNetBaseAddress
   gArmSgiTokenSpaceGuid.PcdVirtioNetSize
+  gArmPlatformTokenSpaceGuid.PcdSerialDbgUartClkInHz
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Base
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Base
 
 [Depex]
   gEfiAcpiTableProtocolGuid AND gEfiAcpiSdtProtocolGuid

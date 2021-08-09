@@ -33,6 +33,7 @@
   gArmSgiTokenSpaceGuid.PcdVirtioNetSupported|FALSE|BOOLEAN|0x00000010
   gArmSgiTokenSpaceGuid.PcdGhesMmSupported|FALSE|BOOLEAN|0x00000027
   gArmSgiTokenSpaceGuid.PcdEinjSupported|FALSE|BOOLEAN|0x00001004
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkNonDiscoverable|FALSE|BOOLEAN|0x00001028
 
 [PcdsFixedAtBuild]
   gArmSgiTokenSpaceGuid.PcdDramBlock2Base|0|UINT64|0x00000002
@@ -113,6 +114,17 @@
   gArmSgiTokenSpaceGuid.PcdPciMmio64SizePerRb|0|UINT64|0x1013
 
   gArmSgiTokenSpaceGuid.PcdPciRpx16DevIDBase|0|UINT64|0x1014
+
+  # IO virtualization block PL011 UARTs
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Base|0|UINT64|0x1020
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0End|0|UINT64|0x1021
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Size|0|UINT64|0x1022
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Interrupt|0|UINT32|0x1023
+
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Base|0|UINT64|0x1024
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1End|0|UINT64|0x1025
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Size|0|UINT64|0x1026
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Interrupt|0|UINT32|0x1027
 
   # Number of PCIe root bridge on the platform
   gArmSgiTokenSpaceGuid.PcdPciNumRootBridge|1|UINT32|0x104E

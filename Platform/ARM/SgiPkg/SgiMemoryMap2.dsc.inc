@@ -65,3 +65,15 @@
   gArmSgiTokenSpaceGuid.PcdGpioController0BaseAddress|0x0C1D0000
   gArmSgiTokenSpaceGuid.PcdGpioController0Size|0x00010000
   gArmSgiTokenSpaceGuid.PcdGpioController0Interrupt|392
+
+  # IO virtualization block UARTs
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Base|0xC00000000000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0End|0xC0000000FFFF
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Size|0x10000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart0Interrupt|492
+
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Base|0xC00020000000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1End|0xC0002000FFFF
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Size|0x10000
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkUart1Interrupt|502
+

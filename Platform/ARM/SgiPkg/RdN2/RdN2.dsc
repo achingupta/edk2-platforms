@@ -51,6 +51,10 @@
   gArmSgiTokenSpaceGuid.PcdPciMmio64SizePerRb|0x1000000000
   gArmSgiTokenSpaceGuid.PcdPciNumRootBridge|4
 
+[PcdsFeatureFlag.common]
+  # IO virtualization block non-discoverable peripherals
+  gArmSgiTokenSpaceGuid.PcdIoVirtBlkNonDiscoverable|TRUE
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform

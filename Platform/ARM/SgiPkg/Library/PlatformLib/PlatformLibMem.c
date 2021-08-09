@@ -19,7 +19,8 @@
 #define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS                 \
           (15 + (FixedPcdGet32 (PcdChipCount) * 2)) +      \
           (FeaturePcdGet (PcdGhesMmSupported)) +           \
-          (FeaturePcdGet (PcdEinjSupported))
+          (FeaturePcdGet (PcdEinjSupported)) +             \
+          (FeaturePcdGet (PcdIoVirtBlkNonDiscoverable) * 2)
 
 /**
   Returns the Virtual Memory Map of the platform.
@@ -172,6 +173,20 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].VirtualBase     = FixedPcdGet64 (PcdSerialRegisterBase);
   VirtualMemoryTable[Index].Length          = SIZE_64KB;
   VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+
+if (FeaturePcdGet (PcdIoVirtBlkNonDiscoverable)) {
+    // IO Virt Block X4_0: UART0
+    VirtualMemoryTable[++Index].PhysicalBase  = FixedPcdGet64 (PcdIoVirtBlkUart0Base);
+    VirtualMemoryTable[Index].VirtualBase     = FixedPcdGet64 (PcdIoVirtBlkUart0Base);;
+    VirtualMemoryTable[Index].Length          = SIZE_64KB;
+    VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+
+    // IO Virt Block X8: UART1
+    VirtualMemoryTable[++Index].PhysicalBase  = FixedPcdGet64 (PcdIoVirtBlkUart1Base);
+    VirtualMemoryTable[Index].VirtualBase     = FixedPcdGet64 (PcdIoVirtBlkUart1Base);
+    VirtualMemoryTable[Index].Length          = SIZE_64KB;
+    VirtualMemoryTable[Index].Attributes      = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+}
 
   // DDR - (2GB - 16MB)
   VirtualMemoryTable[++Index].PhysicalBase  = PcdGet64 (PcdSystemMemoryBase);
