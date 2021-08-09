@@ -45,6 +45,12 @@
   gArmPlatformTokenSpaceGuid.PcdCoreCount|1
   gArmPlatformTokenSpaceGuid.PcdClusterCount|16
 
+  # PCI
+  gArmSgiTokenSpaceGuid.PcdPciBusCountPerRb|64
+  gArmSgiTokenSpaceGuid.PcdPciMmio32SizePerRb|0x8000000
+  gArmSgiTokenSpaceGuid.PcdPciMmio64SizePerRb|0x1000000000
+  gArmSgiTokenSpaceGuid.PcdPciNumRootBridge|4
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform

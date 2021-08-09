@@ -65,6 +65,25 @@
 #define DRAM_BLOCK2_BASE_REMOTE(ChipId) \
           (SGI_REMOTE_CHIP_MEM_OFFSET (ChipId) + FixedPcdGet64 (PcdDramBlock2Base))
 
+/******************************************************************************
+// Macros for PCI usage
+*******************************************************************************/
+
+// Start Bus number with Root Complex index and Max Bus count per Root Complex
+#define SGI_PCI_BUS_START(Idx, PciBusMaxPerRc) (Idx * PciBusMaxPerRc)
+
+// End Bus number with Root Complex index and Max Bus count per Root Complex
+#define SGI_PCI_BUS_END(Idx, PciBusMaxPerRc) \
+          ((Idx * PciBusMaxPerRc) + PciBusMaxPerRc - 1)
+
+// Base address of MMIO 32/64-bit space of Root Complex instance
+#define SGI_PCI_MMIO_START(Idx, PciMmioBase, PciMmioSizePerRc) \
+          ((UINT64) PciMmioBase + (Idx * PciMmioSizePerRc))
+
+// End address of MMIO 32/64-bit space of Root Complex instance
+#define SGI_PCI_MMIO_END(Idx, PciMmioBase, PciMmioSizePerRc) \
+          ((UINT64) PciMmioBase + (Idx * PciMmioSizePerRc) + PciMmioSizePerRc - 1)
+
 // ARM platform description data.
 typedef struct {
   UINTN  PlatformId;

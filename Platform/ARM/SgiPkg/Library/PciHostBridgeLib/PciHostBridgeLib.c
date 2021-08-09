@@ -16,6 +16,8 @@
 #include <Protocol/PciHostBridgeResourceAllocation.h>
 #include <Protocol/PciRootBridgeIo.h>
 
+#include <SgiPlatform.h>
+
 GLOBAL_REMOVE_IF_UNREFERENCED
 STATIC CHAR16 CONST * CONST mPciHostBridgeLibAcpiAddressSpaceTypeStr[] = {
   L"Mem", L"I/O", L"Bus"
@@ -28,26 +30,97 @@ typedef struct {
 } EFI_PCI_ROOT_BRIDGE_DEVICE_PATH;
 #pragma pack ()
 
-STATIC EFI_PCI_ROOT_BRIDGE_DEVICE_PATH mEfiPciRootBridgeDevicePath = {
+STATIC EFI_PCI_ROOT_BRIDGE_DEVICE_PATH mEfiPciRootBridgeDevicePath[] = {
   {
     {
-      ACPI_DEVICE_PATH,
-      ACPI_DP,
       {
-        (UINT8) (sizeof (ACPI_HID_DEVICE_PATH)),
-        (UINT8) ((sizeof (ACPI_HID_DEVICE_PATH)) >> 8)
-      }
-    },
-    EISA_PNP_ID (0x0A08), // PCIe
-    0
-  }, {
-    END_DEVICE_PATH_TYPE,
-    END_ENTIRE_DEVICE_PATH_SUBTYPE,
-    {
-      END_DEVICE_PATH_LENGTH,
+        ACPI_DEVICE_PATH,
+        ACPI_DP,
+        {
+          (UINT8) (sizeof (ACPI_HID_DEVICE_PATH)),
+          (UINT8) ((sizeof (ACPI_HID_DEVICE_PATH)) >> 8)
+        }
+      },
+      EISA_PNP_ID (0x0A08), // PCIe
       0
+    }, {
+      END_DEVICE_PATH_TYPE,
+      END_ENTIRE_DEVICE_PATH_SUBTYPE,
+      {
+        END_DEVICE_PATH_LENGTH,
+        0
+      }
     }
-  }
+  },
+#if (FixedPcdGet32 (PcdPciNumRootBridge) >= 1)
+  {
+    {
+      {
+        ACPI_DEVICE_PATH,
+        ACPI_DP,
+        {
+          (UINT8) (sizeof (ACPI_HID_DEVICE_PATH)),
+          (UINT8) ((sizeof (ACPI_HID_DEVICE_PATH)) >> 8)
+        }
+      },
+      EISA_PNP_ID (0x0A08), // PCIe
+      1
+    }, {
+      END_DEVICE_PATH_TYPE,
+      END_ENTIRE_DEVICE_PATH_SUBTYPE,
+      {
+        END_DEVICE_PATH_LENGTH,
+        0
+      }
+    }
+  },
+#endif
+#if (FixedPcdGet32 (PcdPciNumRootBridge) >= 2)
+  {
+    {
+      {
+        ACPI_DEVICE_PATH,
+        ACPI_DP,
+        {
+          (UINT8) (sizeof (ACPI_HID_DEVICE_PATH)),
+          (UINT8) ((sizeof (ACPI_HID_DEVICE_PATH)) >> 8)
+        }
+      },
+      EISA_PNP_ID (0x0A08), // PCIe
+      2
+    }, {
+      END_DEVICE_PATH_TYPE,
+      END_ENTIRE_DEVICE_PATH_SUBTYPE,
+      {
+        END_DEVICE_PATH_LENGTH,
+        0
+      }
+    }
+  },
+#endif
+#if (FixedPcdGet32 (PcdPciNumRootBridge) >= 3)
+  {
+    {
+      {
+        ACPI_DEVICE_PATH,
+        ACPI_DP,
+        {
+          (UINT8) (sizeof (ACPI_HID_DEVICE_PATH)),
+          (UINT8) ((sizeof (ACPI_HID_DEVICE_PATH)) >> 8)
+        }
+      },
+      EISA_PNP_ID (0x0A08), // PCIe
+      3
+    }, {
+      END_DEVICE_PATH_TYPE,
+      END_ENTIRE_DEVICE_PATH_SUBTYPE,
+      {
+        END_DEVICE_PATH_LENGTH,
+        0
+      }
+    }
+  },
+#endif
 };
 
 STATIC PCI_ROOT_BRIDGE mPciRootBridge[] = {
@@ -62,20 +135,24 @@ STATIC PCI_ROOT_BRIDGE mPciRootBridge[] = {
     EFI_PCI_HOST_BRIDGE_MEM64_DECODE,
     {
       // Bus
-      FixedPcdGet32 (PcdPciBusMin),
-      FixedPcdGet32 (PcdPciBusMax)
+      SGI_PCI_BUS_START (0, FixedPcdGet32 (PcdPciBusCountPerRb)),
+      SGI_PCI_BUS_END (0, FixedPcdGet32 (PcdPciBusCountPerRb))
     }, {
       // Io
       FixedPcdGet64 (PcdPciIoBase),
       FixedPcdGet64 (PcdPciIoBase) + FixedPcdGet64 (PcdPciIoSize) - 1
     }, {
       // Mem
-      FixedPcdGet32 (PcdPciMmio32Base),
-      FixedPcdGet32 (PcdPciMmio32Base) + FixedPcdGet32 (PcdPciMmio32Size) - 1
+      SGI_PCI_MMIO_START (0, FixedPcdGet32 (PcdPciMmio32Base),
+                          FixedPcdGet64 (PcdPciMmio32SizePerRb)),
+      SGI_PCI_MMIO_END (0, FixedPcdGet32 (PcdPciMmio32Base),
+                        FixedPcdGet64 (PcdPciMmio32SizePerRb)),
     }, {
       // MemAbove4G
-      FixedPcdGet64 (PcdPciMmio64Base),
-      FixedPcdGet64 (PcdPciMmio64Base) + FixedPcdGet64 (PcdPciMmio64Size) - 1
+      SGI_PCI_MMIO_START (0, FixedPcdGet64 (PcdPciMmio64Base),
+                          FixedPcdGet64 (PcdPciMmio64SizePerRb)),
+      SGI_PCI_MMIO_END (0, FixedPcdGet64 (PcdPciMmio64Base),
+                        FixedPcdGet64 (PcdPciMmio64SizePerRb)),
     }, {
       // PMem
       MAX_UINT64,
@@ -85,8 +162,134 @@ STATIC PCI_ROOT_BRIDGE mPciRootBridge[] = {
       MAX_UINT64,
       0
     },
-    (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath
+    (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath[0]
   },
+#if (FixedPcdGet32 (PcdPciNumRootBridge) >= 1)
+  {
+    0,                                              // Segment
+    0,                                              // Supports
+    0,                                              // Attributes
+    TRUE,                                           // DmaAbove4G
+    FALSE,                                          // NoExtendedConfigSpace
+    FALSE,                                          // ResourceAssigned
+    EFI_PCI_HOST_BRIDGE_COMBINE_MEM_PMEM |          // AllocationAttributes
+    EFI_PCI_HOST_BRIDGE_MEM64_DECODE,
+    {
+      // Bus
+      SGI_PCI_BUS_START (1, FixedPcdGet32 (PcdPciBusCountPerRb)),
+      SGI_PCI_BUS_END (1, FixedPcdGet32 (PcdPciBusCountPerRb))
+    }, {
+      // Io
+      FixedPcdGet64 (PcdPciIoBase),
+      FixedPcdGet64 (PcdPciIoBase) + FixedPcdGet64 (PcdPciIoSize) - 1
+    }, {
+      // Mem
+      SGI_PCI_MMIO_START (1, FixedPcdGet32 (PcdPciMmio32Base),
+                          FixedPcdGet64 (PcdPciMmio32SizePerRb)),
+      SGI_PCI_MMIO_END (1, FixedPcdGet32 (PcdPciMmio32Base),
+                        FixedPcdGet64 (PcdPciMmio32SizePerRb)),
+    }, {
+      // MemAbove4G
+      SGI_PCI_MMIO_START (1, FixedPcdGet64 (PcdPciMmio64Base),
+                          FixedPcdGet64 (PcdPciMmio64SizePerRb)),
+      SGI_PCI_MMIO_END (1, FixedPcdGet64 (PcdPciMmio64Base),
+                        FixedPcdGet64 (PcdPciMmio64SizePerRb)),
+    }, {
+      // PMem
+      MAX_UINT64,
+      0
+    }, {
+      // PMemAbove4G
+      MAX_UINT64,
+      0
+    },
+    (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath[1]
+  },
+#endif
+#if (FixedPcdGet32 (PcdPciNumRootBridge) >= 2)
+  {
+    0,                                              // Segment
+    0,                                              // Supports
+    0,                                              // Attributes
+    TRUE,                                           // DmaAbove4G
+    FALSE,                                          // NoExtendedConfigSpace
+    FALSE,                                          // ResourceAssigned
+    EFI_PCI_HOST_BRIDGE_COMBINE_MEM_PMEM |          // AllocationAttributes
+    EFI_PCI_HOST_BRIDGE_MEM64_DECODE,
+    {
+      // Bus
+      SGI_PCI_BUS_START (2, FixedPcdGet32 (PcdPciBusCountPerRb)),
+      SGI_PCI_BUS_END (2, FixedPcdGet32 (PcdPciBusCountPerRb))
+    }, {
+      // Io
+      FixedPcdGet64 (PcdPciIoBase),
+      FixedPcdGet64 (PcdPciIoBase) + FixedPcdGet64 (PcdPciIoSize) - 1
+    }, {
+      // Mem
+      SGI_PCI_MMIO_START (2, FixedPcdGet32 (PcdPciMmio32Base),
+                          FixedPcdGet64 (PcdPciMmio32SizePerRb)),
+      SGI_PCI_MMIO_END (2, FixedPcdGet32 (PcdPciMmio32Base),
+                        FixedPcdGet64 (PcdPciMmio32SizePerRb)),
+    }, {
+      // MemAbove4G
+      SGI_PCI_MMIO_START (2, FixedPcdGet64 (PcdPciMmio64Base),
+                          FixedPcdGet64 (PcdPciMmio64SizePerRb)),
+      SGI_PCI_MMIO_END (2, FixedPcdGet64 (PcdPciMmio64Base),
+                        FixedPcdGet64 (PcdPciMmio64SizePerRb)),
+    }, {
+      // PMem
+      MAX_UINT64,
+      0
+    }, {
+      // PMemAbove4G
+      MAX_UINT64,
+      0
+    },
+    (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath[2]
+  },
+#endif
+#if (FixedPcdGet32 (PcdPciNumRootBridge) >= 3)
+  {
+    0,                                              // Segment
+    0,                                              // Supports
+    0,                                              // Attributes
+    TRUE,                                           // DmaAbove4G
+    FALSE,                                          // NoExtendedConfigSpace
+    FALSE,                                          // ResourceAssigned
+    EFI_PCI_HOST_BRIDGE_COMBINE_MEM_PMEM |          // AllocationAttributes
+    EFI_PCI_HOST_BRIDGE_MEM64_DECODE,
+    {
+      // Bus
+      SGI_PCI_BUS_START (3, FixedPcdGet32 (PcdPciBusCountPerRb)),
+      SGI_PCI_BUS_END (3, FixedPcdGet32 (PcdPciBusCountPerRb))
+    }, {
+      // Io
+      FixedPcdGet64 (PcdPciIoBase),
+      FixedPcdGet64 (PcdPciIoBase) + FixedPcdGet64 (PcdPciIoSize) - 1
+    }, {
+      // Mem
+      SGI_PCI_MMIO_START (3, FixedPcdGet32 (PcdPciMmio32Base),
+                          FixedPcdGet64 (PcdPciMmio32SizePerRb)),
+      SGI_PCI_MMIO_END (3, FixedPcdGet32 (PcdPciMmio32Base),
+                        FixedPcdGet64 (PcdPciMmio32SizePerRb)),
+    }, {
+      // MemAbove4G
+      SGI_PCI_MMIO_START (3, FixedPcdGet64 (PcdPciMmio64Base),
+                          FixedPcdGet64 (PcdPciMmio64SizePerRb)),
+      SGI_PCI_MMIO_END (3, FixedPcdGet64 (PcdPciMmio64Base),
+                        FixedPcdGet64 (PcdPciMmio64SizePerRb)),
+    }, {
+      // PMem
+      MAX_UINT64,
+      0
+    }, {
+      // PMemAbove4G
+      MAX_UINT64,
+      0
+    },
+    (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath[3]
+  },
+#endif
 };
 
 /**
@@ -104,7 +307,7 @@ PciHostBridgeGetRootBridges (
   UINTN *Count
   )
 {
-  *Count = ARRAY_SIZE (mPciRootBridge);
+  *Count = FixedPcdGet32 (PcdPciNumRootBridge);
   return mPciRootBridge;
 }
 

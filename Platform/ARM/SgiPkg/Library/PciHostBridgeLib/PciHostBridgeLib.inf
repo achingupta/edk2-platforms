@@ -30,8 +30,10 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   ArmPkg/ArmPkg.dec
+  Platform/ARM/SgiPkg/SgiPlatform.dec
 
 [LibraryClasses]
+  ArmPlatformLib
   BaseLib
   DebugLib
   DevicePathLib
@@ -49,6 +51,10 @@
   gArmTokenSpaceGuid.PcdPciMmio32Translation
   gArmTokenSpaceGuid.PcdPciMmio64Base
   gArmTokenSpaceGuid.PcdPciMmio64Size
+  gArmSgiTokenSpaceGuid.PcdPciBusCountPerRb
+  gArmSgiTokenSpaceGuid.PcdPciMmio32SizePerRb
+  gArmSgiTokenSpaceGuid.PcdPciMmio64SizePerRb
+  gArmSgiTokenSpaceGuid.PcdPciNumRootBridge
 
 [Protocols]
   gEfiCpuIo2ProtocolGuid          ## CONSUMES
