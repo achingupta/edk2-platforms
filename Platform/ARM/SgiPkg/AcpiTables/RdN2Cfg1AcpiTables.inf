@@ -18,13 +18,13 @@
   Dbg2.aslc
   Fadt.aslc
   Gtdt.aslc
-  Iort.aslc
-  Mcfg.aslc
+  RdN2Cfg1/Iort.aslc
   RdN2Cfg1/Dsdt.asl
   RdN2Cfg1/Madt.aslc
+  RdN2Cfg1/Mcfg.aslc
   RdN2Cfg1/Pptt.aslc
+  RdN2Cfg1/Ssdt.asl
   Spcr.aslc
-  Ssdt.asl
   SsdtRos.asl
   SsdtEvents.asl
 
