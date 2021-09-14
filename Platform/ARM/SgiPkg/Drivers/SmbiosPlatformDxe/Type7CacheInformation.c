@@ -298,6 +298,7 @@ InstallType7CacheInformation (
     mArmRdSmbiosType7[4].Base.Associativity = CacheAssociativity16Way;
     break;
   case RdN2:
+  case RdN2Cfg2:
     /* L1 instruction cache */
     mArmRdSmbiosType7[0].Base.MaximumCacheSize2 = 64;    // 64KB
     mArmRdSmbiosType7[0].Base.InstalledSize2 = 64;       // 64KB
