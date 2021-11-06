@@ -39,6 +39,9 @@
 # Pcd Section - list of all EDK II PCD Entries defined by this Platform
 #
 ################################################################################
+[PcdsFeatureFlag]
+  gArmTokenSpaceGuid.PcdFfaEnable|TRUE
+
 [PcdsFixedAtBuild]
   ## PL011 - Serial Terminal
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x7FF70000

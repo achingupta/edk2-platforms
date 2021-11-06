@@ -49,6 +49,9 @@
   gArmSgiTokenSpaceGuid.PcdMhuBaseAddress|0x45000000
   gArmSgiTokenSpaceGuid.PcdMhuChannelSetOffset|0x128
 
+[PcdsFeatureFlag]
+  gArmTokenSpaceGuid.PcdFfaEnable|TRUE
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
